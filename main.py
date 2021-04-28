@@ -1,17 +1,48 @@
 from tkinter import *
 from tkinter import ttk
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import uniform
+import tkinter as tk
+
+def uniforming(a, b):
+    height = 1 / (b - a)
+    mean = (a + b) / 2
+    sd = (b - a) / 12 ** (1/2)
+    lin = np.linspace(0, (b + a), 100)
+    return [a, b - a, height, mean, sd, lin]
 
 root = Tk()
 root.title("Distribution Simulation")
 root.geometry("1280x720")
 
-min_value = StringVar()
-max_value = StringVar()
-pdf_min_value = StringVar()
-pdf_max_value = StringVar()
+min_value = IntVar()
+max_value = IntVar()
+pdf_min_value = IntVar()
+pdf_max_value = IntVar()
 
 def graph_uniform():
-    pass
+    low = (min_value.get())
+    high = (max_value.get())
+
+    print(low, high)
+    results = uniforming(low, high)
+
+    y = uniform.pdf(results[-1], results[0], results[1])
+    plt.plot(results[-1], y, "b-")
+
+    plt.xlabel("X")
+    plt.ylabel("Y")
+    plt.title(f"Uniform distribution for {low} -> {high}")
+    # plt.grid(True)
+
+    # For padding
+    plt.tight_layout()
+
+    # For filling in areas
+    plt.fill_between(results[-1], y, alpha = 0.25)
+
+    plt.show()
 
 simulation_screen = ttk.Notebook(root)
 simulation_screen.pack()
