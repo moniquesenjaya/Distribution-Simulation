@@ -31,8 +31,8 @@ def graph_uniform():
     y = uniform.pdf(results[-1], results[0], results[1])
     plt.plot(results[-1], y, "b-")
 
-    plt.xlabel("X")
-    plt.ylabel("Y")
+    plt.xlabel("x")
+    plt.ylabel("y")
     plt.title(f"Uniform distribution for {low} -> {high}")
     # plt.grid(True)
 
@@ -89,7 +89,7 @@ pdf_text.grid(row=0, column=1, pady=5, sticky = "w")
 pdf_max_text = Entry(input_uniformpdf_frame, font= 12, width=5, bd=2, relief=GROOVE, textvariable = pdf_max_value)
 pdf_max_text.grid(row=0, column=2, pady=5, sticky = "w")
 
-uniform_button = Button(input_uniformpdf_frame, text="Graph", bd=4, width =10, relief=GROOVE, command = graph_uniform())
+uniform_button = Button(input_uniformpdf_frame, text="Graph", bd=4, width =10, relief=GROOVE, command =lambda: graph_uniform())
 uniform_button.grid(row=1, column=0, pady=25, columnspan=2)
 
 title = Label(normal_tab, text ='Normal Distribution', font = ("sans-serif", 15, "bold")) 
