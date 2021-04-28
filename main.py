@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import ttk
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import uniform
