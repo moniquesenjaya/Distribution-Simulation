@@ -1,0 +1,9 @@
+import numpy as np
+
+def uniforming(a, b):
+    height = 1 / (b - a)
+    mean = (a + b) / 2
+    sd = (b - a) / 12 ** (1/2)
+    lin = np.linspace(0, (a + b), 100)
+    return [a, b - a, height, mean, sd, lin]
+
