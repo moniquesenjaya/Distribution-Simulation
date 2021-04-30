@@ -55,8 +55,8 @@ a.fill_between(results[-1], y, alpha = 0.25)
 canvas = FigureCanvasTkAgg(figureUniform, graph_frame)
 canvas.draw()
 canvas.get_tk_widget().pack(side = BOTTOM, fill = BOTH, expand = True)
-toolbar = NavigationToolbar2Tk(canvas, uniform_tab)
-toolbar.update()
+# toolbar = NavigationToolbar2Tk(canvas, uniform_tab)
+# toolbar.update()
 canvas._tkcanvas.pack(side = TOP, fill = BOTH, expand = True)
 
 # * --------------------------------------------------------------- * #
@@ -107,10 +107,43 @@ uniformButton.pack()
 
 # * --------------------------------------------------------------- * #
 
-# * Normal Distribution tab handling
+# * Normal Distribution initialization
 titleNormal = Label(normal_tab, text ='Normal Distribution', font = ("sans-serif", 15, "bold"))
 titleNormal.place(x = 550, y = 5)
 
+frameNormal = Frame(normal_tab, width = 1280, height = 500, highlightbackground = "black", highlightcolor = "black", highlightthickness = 1)
+frameNormal.place(x = 0, y = 0, width = 1280, height = 500)
+
+figureNormal = plt.Figure(figsize = (5,4), dpi = 100)
+b = figureNormal.add_subplot(1, 1, 1)
+meanNormal = 0
+stdNormal = 1
+
+resultNormal = graph.normaling(meanNormal, stdNormal)
+
+b.hist(resultNormal[1], density = 1)
+b.plot(np.sort(resultNormal[1]), resultNormal[2])
+
+b.set_xlabel("x")
+b.set_ylabel("y")
+b.set_title("Normal distribution")
+
+# For padding
+figureNormal.tight_layout()
+
+canvasNormal = FigureCanvasTkAgg(figureNormal, frameNormal)
+canvasNormal.draw()
+canvasNormal.get_tk_widget().pack(side = BOTTOM, fill = BOTH, expand = True)
+# toolbarNormal = NavigationToolbar2Tk(canvasNormal, normal_tab)
+# toolbarNormal.update()
+canvasNormal._tkcanvas.pack(side = TOP, fill = BOTH, expand = True)
+
+uiFrameNormal = Frame(normal_tab, width = 1280, height = 220, highlightbackground = "black", highlightcolor = "black", highlightthickness = 1)
+uiFrameNormal.place(x = 0, y = 500, width = 1280, height = 220)
+
+# * --------------------------------------------------------------- * #
+
+# * Normal Distribution tab handling
 
 # * Main loop
 if __name__ == "__main__":
