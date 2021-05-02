@@ -5,6 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import uniform
 import graph
+from tkinter import messagebox
 
 # * Window initialization
 root = Tk()
@@ -71,6 +72,10 @@ def updateUniform():
     low = slider1Uniform.get()
     high = slider2Uniform.get()
 
+    if low > high:
+        messagebox.showerror("Value Error", "Value of a should be more than b.")
+        return
+
     # Plot new data into subplot
     results = graph.uniforming(low, high)
 
@@ -91,19 +96,84 @@ def updateUniform():
     # Refresh canvas
     canvas.draw()
 
+def areaUniform():
+    # Clear the subplot
+    global a
+    a.clear()
+
+    # Get new lower and upper boundary from sliders
+    low = slider1Uniform.get()
+    high = slider2Uniform.get()
+
+    areaLow = slider3Uniform.get()
+    areaHigh = slider4Uniform.get()
+
+    if low > high:
+        messagebox.showerror("Value Error", "Value of a should be more than b.")
+        return
+
+    if areaHigh > high or areaLow < low:
+        messagebox.showerror("Area out of range.")
+        return
+
+    # Plot new data into subplot
+    results = graph.uniforming(low, high)
+
+    y = uniform.pdf(results[-1], areaLow, areaHigh)
+
+    a.plot(results[-1], y, "b-")
+
+    a.set_xlabel("x")
+    a.set_ylabel("y")
+    a.set_title("Uniform distribution")
+
+    # For padding
+    figureUniform.tight_layout()
+
+    # For filling in areas
+    a.fill_between(results[-1], y, alpha = 0.25)
+
+    # Refresh canvas
+    canvas.draw()
+
 ui_frame = Frame(uniform_tab, width = 1280, height = 220, highlightbackground = "black", highlightcolor = "black", highlightthickness = 1)
 ui_frame.place(x = 0, y = 500, width = 1280, height = 220)
 
+slider1UniformLabel = Label(ui_frame, text = "Lower Bound:", font=("Helvetica", 14))
+slider1UniformLabel.grid(row=1, column=0, padx=20, sticky="w")
+
 slider1Uniform = Scale(ui_frame, from_ = 1.0, to = 15, orient = HORIZONTAL, resolution = 0.1, length = 300)
 slider1Uniform.set(5.0)
-slider1Uniform.pack()
+slider1Uniform.grid(row=1, column=1, padx=8, sticky = "w",columnspan=2)
+
+slider2UniformLabel = Label(ui_frame, text = "Upper Bound:", font=("Helvetica", 14))
+slider2UniformLabel.grid(row=2, column=0, padx=20, sticky="w")
 
 slider2Uniform = Scale(ui_frame, from_ = 1.0, to = 15, orient = HORIZONTAL, resolution = 0.1, length = 300)
 slider2Uniform.set(10.0)
-slider2Uniform.pack()
+slider2Uniform.grid(row=2, column=1, padx=8, sticky = "w",columnspan=2)
 
 uniformButton = Button(ui_frame, text = "Update", bd = 4, width = 10, relief = GROOVE, command = lambda: updateUniform())
-uniformButton.pack()
+uniformButton.grid(row=3, column=0, pady=20, padx=20, sticky = "w")
+
+# CDF Area
+
+slider3UniformLabel = Label(ui_frame, text = "Area Lower Bound:", font=("Helvetica", 14))
+slider3UniformLabel.grid(row=1, column=3, padx=20, sticky="w")
+
+slider3Uniform = Scale(ui_frame, from_ = 1.0, to = 15, orient = HORIZONTAL, resolution = 0.1, length = 300)
+slider3Uniform.set(5.0)
+slider3Uniform.grid(row=1, column=4, padx=8, sticky = "w",columnspan=2)
+
+slider4UniformLabel = Label(ui_frame, text = "Area Upper Bound:", font=("Helvetica", 14))
+slider4UniformLabel.grid(row=2, column=3, padx=20, sticky="w")
+
+slider4Uniform = Scale(ui_frame, from_ = 1.0, to = 15, orient = HORIZONTAL, resolution = 0.1, length = 300)
+slider4Uniform.set(10.0)
+slider4Uniform.grid(row=2, column=4, padx=8, sticky = "w",columnspan=2)
+
+uniformAreaButton = Button(ui_frame, text = "Calculate", bd = 4, width = 10, relief = GROOVE, command = lambda: areaUniform())
+uniformAreaButton.grid(row=3, column=3, pady=20, padx=20, sticky = "w")
 
 # * --------------------------------------------------------------- * #
 
