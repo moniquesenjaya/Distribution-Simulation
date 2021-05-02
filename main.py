@@ -113,7 +113,7 @@ def areaUniform():
         return
 
     if areaHigh > high or areaLow < low:
-        messagebox.showerror("Area out of range.")
+        messagebox.showerror("Value Error", "Area out of range.")
         return
 
     # Plot new data into subplot
@@ -174,6 +174,24 @@ slider4Uniform.grid(row=2, column=4, padx=8, sticky = "w",columnspan=2)
 
 uniformAreaButton = Button(ui_frame, text = "Calculate", bd = 4, width = 10, relief = GROOVE, command = lambda: areaUniform())
 uniformAreaButton.grid(row=3, column=3, pady=20, padx=20, sticky = "w")
+
+areaLabel = Label(ui_frame, text = "Area:", font=("Helvetica", 14))
+areaLabel.grid(row=3, column=4, padx=20, sticky="w",)
+
+areaNum = Label(ui_frame, text = "number", font=("Helvetica", 14))
+areaNum.grid(row=3, column=5, padx=5, sticky="w")
+
+meanLabel = Label(ui_frame, text = "Mean:", font=("Helvetica", 14))
+meanLabel.grid(row=1, column=6, padx=20, sticky="w")
+
+meanNum = Label(ui_frame, text = "number", font=("Helvetica", 14))
+meanNum.grid(row=1, column=7, padx=5, sticky="w")
+
+stdLabel = Label(ui_frame, text = "STD:", font=("Helvetica", 14))
+stdLabel.grid(row=2, column=6, padx=20, sticky="w")
+
+stdNum = Label(ui_frame, text = "number", font=("Helvetica", 14))
+stdNum.grid(row=2, column=7, padx=5, sticky="w")
 
 # * --------------------------------------------------------------- * #
 
