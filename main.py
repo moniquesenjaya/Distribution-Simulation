@@ -64,10 +64,6 @@ canvas._tkcanvas.pack(side = TOP, fill = BOTH, expand = True)
 
 # * Uniform Distribution tab handling
 def updateUniform():
-    # Clear the subplot
-    global a
-    a.clear()
-
     # Get new lower and upper boundary from sliders
     low = slider1Uniform.get()
     high = slider2Uniform.get()
@@ -75,6 +71,10 @@ def updateUniform():
     if low > high:
         messagebox.showerror("Value Error", "Value of a should be more than b.")
         return
+
+    # Clear the subplot
+    global a
+    a.clear()
 
     # Plot new data into subplot
     results = graph.uniforming(low, high)
@@ -97,10 +97,6 @@ def updateUniform():
     canvas.draw()
 
 def areaUniform():
-    # Clear the subplot
-    global a
-    a.clear()
-
     # Get new lower and upper boundary from sliders
     low = slider1Uniform.get()
     high = slider2Uniform.get()
@@ -112,14 +108,14 @@ def areaUniform():
         messagebox.showerror("Value Error", "Value of a should be more than b.")
         return
 
-    if areaHigh > high or areaLow < low:
-        messagebox.showerror("Value Error", "Area out of range.")
-        return
+    # Clear the subplot
+    global a
+    a.clear()
 
     # Plot new data into subplot
     results = graph.uniforming(low, high)
 
-    y = uniform.pdf(results[-1], areaLow, areaHigh)
+    y = uniform.pdf(results[-1], results[0], results[1])
 
     a.plot(results[-1], y, "b-")
 
@@ -131,7 +127,12 @@ def areaUniform():
     figureUniform.tight_layout()
 
     # For filling in areas
-    a.fill_between(results[-1], y, alpha = 0.25)
+    if areaHigh > high or areaLow < low:
+        messagebox.showerror("Value Error", "Area out of range.")
+        return
+    else:
+        area = np.linspace(areaLow, areaHigh, 100)
+        a.fill_between(area, y, alpha = 0.25)
 
     # Refresh canvas
     canvas.draw()
