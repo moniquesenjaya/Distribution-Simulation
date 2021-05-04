@@ -6,7 +6,7 @@ def uniforming(a, b):
     mean = (a + b) / 2
     sd = (b - a) / 12 ** (1/2)
     lin = np.linspace(0, (a + b), 100)
-    return [a, b - a, height, mean, sd, lin]
+    return [a, b - a, height, mean, f"{sd:.4f}", lin]
 
 def normaling(mean, std):
     x = stats.norm(loc = mean, scale = std)

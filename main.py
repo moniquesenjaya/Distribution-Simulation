@@ -16,6 +16,11 @@ root.resizable(0, 0)    # Make root window fixed size
 simulation_screen = ttk.Notebook(root)
 simulation_screen.pack()
 
+
+mean = StringVar()
+sd = StringVar()
+areaUpdate = StringVar()
+
 uniform_tab = Frame(simulation_screen, width = 1280, height = 720)
 normal_tab = Frame(simulation_screen, width = 1280, height = 720)
 uniform_tab.pack(fill = "both", expand = 1)
@@ -39,6 +44,10 @@ lowUniform = 5
 highUniform = 10
 
 results = graph.uniforming(lowUniform, highUniform)
+
+mean.set(str(results[3]))
+sd.set(str(results[4]))
+areaUpdate.set(results[2] * results[1])
 
 y = uniform.pdf(results[-1], results[0], results[1])
 a.plot(results[-1], y, "b-")
@@ -83,6 +92,11 @@ def updateUniform():
 
     a.plot(results[-1], y, "b-")
 
+    
+    mean.set(results[3])
+    sd.set(results[4])
+    areaUpdate.set(results[2] * results[1])
+
     a.set_xlabel("x")
     a.set_ylabel("y")
     a.set_title("Uniform distribution")
@@ -103,6 +117,7 @@ def areaUniform():
 
     areaLow = slider3Uniform.get()
     areaHigh = slider4Uniform.get()
+    width = areaHigh-areaLow
 
     if low > high:
         messagebox.showerror("Value Error", "Value of a should be more than b.")
@@ -114,6 +129,10 @@ def areaUniform():
 
     # Plot new data into subplot
     results = graph.uniforming(low, high)
+
+    mean.set(results[3])
+    sd.set(results[4])
+    areaUpdate.set(results[2] * width)
 
     y = uniform.pdf(results[-1], results[0], results[1])
 
@@ -179,19 +198,19 @@ uniformAreaButton.grid(row=3, column=3, pady=20, padx=20, sticky = "w")
 areaLabel = Label(ui_frame, text = "Area:", font=("Helvetica", 14))
 areaLabel.grid(row=3, column=4, padx=20, sticky="w",)
 
-areaNum = Label(ui_frame, text = "number", font=("Helvetica", 14))
+areaNum = Label(ui_frame, textvariable = areaUpdate, font=("Helvetica", 14))
 areaNum.grid(row=3, column=5, padx=5, sticky="w")
 
 meanLabel = Label(ui_frame, text = "Mean:", font=("Helvetica", 14))
 meanLabel.grid(row=1, column=6, padx=20, sticky="w")
 
-meanNum = Label(ui_frame, text = "number", font=("Helvetica", 14))
+meanNum = Label(ui_frame, textvariable = mean, font=("Helvetica", 14))
 meanNum.grid(row=1, column=7, padx=5, sticky="w")
 
 stdLabel = Label(ui_frame, text = "STD:", font=("Helvetica", 14))
 stdLabel.grid(row=2, column=6, padx=20, sticky="w")
 
-stdNum = Label(ui_frame, text = "number", font=("Helvetica", 14))
+stdNum = Label(ui_frame, textvariable = sd, font=("Helvetica", 14))
 stdNum.grid(row=2, column=7, padx=5, sticky="w")
 
 # * --------------------------------------------------------------- * #
