@@ -16,7 +16,6 @@ root.resizable(0, 0)    # Make root window fixed size
 simulation_screen = ttk.Notebook(root)
 simulation_screen.pack()
 
-
 mean = StringVar()
 sd = StringVar()
 areaUpdate = StringVar()
@@ -92,7 +91,6 @@ def updateUniform():
 
     a.plot(results[-1], y, "b-")
 
-    
     mean.set(results[3])
     sd.set(results[4])
     areaUpdate.set(results[2] * results[1])
@@ -151,7 +149,7 @@ def areaUniform():
         return
     else:
         area = np.linspace(areaLow, areaHigh, 100)
-        a.fill_between(area, y, alpha = 0.25)
+        a.fill_between(area, results[2], alpha = 0.25)
 
     # Refresh canvas
     canvas.draw()
