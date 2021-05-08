@@ -214,19 +214,16 @@ stdNum.grid(row=2, column=7, padx=5, sticky="w")
 # * --------------------------------------------------------------- * #
 
 def updateNormal():
+    meanNormal = int(meanText.get())
+    stdNormal = int(stdText.get())
+    trialNormal = int(trialText.get())
 
-    mean = meanText.get()
-    STD = stdText.get()
-    trial = trialText.get()
+    # Clear the subplot
+    global b
+    b.clear()
 
-    print(mean,STD, trial)
-
-    figureNormal = plt.Figure(figsize = (5,4), dpi = 100)
-    b = figureNormal.add_subplot(1, 1, 1)
-    meanNormal = mean
-    stdNormal = STD
-
-    resultNormal = graph.normaling(meanNormal, stdNormal, trial)
+    # Plot new data into subplot
+    resultNormal = graph.normaling(meanNormal, stdNormal, trialNormal)
 
     b.hist(resultNormal[1], density = 1)
     b.plot(np.sort(resultNormal[1]), resultNormal[2])
@@ -238,12 +235,8 @@ def updateNormal():
     # For padding
     figureNormal.tight_layout()
 
-    canvasNormal = FigureCanvasTkAgg(figureNormal, frameNormal)
+    # Refresh canvas
     canvasNormal.draw()
-    canvasNormal.get_tk_widget().pack(side = BOTTOM, fill = BOTH, expand = True)
-    # toolbarNormal = NavigationToolbar2Tk(canvasNormal, normal_tab)
-    # toolbarNormal.update()
-    canvasNormal._tkcanvas.pack(side = TOP, fill = BOTH, expand = True)
 
 # * Normal Distribution initialization
 titleNormal = Label(normal_tab, text ='Normal Distribution', font = ("sans-serif", 15, "bold"))
@@ -304,8 +297,6 @@ trialText.grid(row=3, column=1, padx=8, pady= 5, sticky = "w",columnspan=2)
 
 normalButton = Button(ui_frame_normal, text = "Update", bd = 4, width = 10, relief = GROOVE, command = lambda: updateNormal())
 normalButton.grid(row=4, column=0, pady=20, padx=20, sticky = "w")
-
-
 
 # * Main loop
 if __name__ == "__main__":
