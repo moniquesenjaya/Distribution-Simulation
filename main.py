@@ -216,7 +216,7 @@ stdNum.grid(row=2, column=7, padx=5, sticky="w")
 
 def updateNormal():
 
-    if meanText.get() == "" or stdText.get() == "" or trialText.get() == "" or binsText.get() == "":
+    if meanText.get() == "" or stdText.get() == "" or trialText.get() == "" or binsText.get() == "" or xValuesText == "":
         messagebox.showerror("Empty field", "Please fill in all fields.")
         return
 
@@ -225,6 +225,7 @@ def updateNormal():
         stdNormal = float(stdText.get())
         trialNormal = int(trialText.get())
         bins = int(binsText.get())
+        xval = float(xValuesText.get())
     except:
         messagebox.showerror("Value Error", "Must be number.")
         return
@@ -237,12 +238,15 @@ def updateNormal():
         messagebox.showerror("Value Error", "Number must be positive.")
         return
 
+    #blm kepikiran :') validation part for xval
+
+    
     # Clear the subplot
     global b
     b.clear()
 
     # Plot new data into subplot
-    resultNormal = graph.normaling(meanNormal, stdNormal, trialNormal)
+    resultNormal = graph.normaling(meanNormal, stdNormal, trialNormal, xval)
 
     z.set(resultNormal[-1])
 
@@ -325,11 +329,17 @@ binsLabel.grid(row=1, column=3, padx=20, pady= 5, sticky="w")
 binsText = Entry(ui_frame_normal, font=("Helvetica", 14))
 binsText.grid(row=1, column=4, padx=8, pady= 5, sticky = "w",columnspan=2)
 
+xValueLabel = Label(ui_frame_normal, text = "X value (z score): ", font=("Helvetica", 14))
+xValueLabel.grid(row=2, column=3, padx=20, pady= 5, sticky="w")
+
+xValuesText = Entry(ui_frame_normal, font=("Helvetica", 14))
+xValuesText.grid(row=2, column=4, padx=8, pady= 5, sticky = "w",columnspan=2)
+
 zLabel = Label(ui_frame_normal, text = "Zscore: ", font=("Helvetica", 14))
-zLabel.grid(row=2, column=3, padx=20, pady= 5, sticky="w")
+zLabel.grid(row=3, column=3, padx=20, pady= 5, sticky="w")
 
 zText = Label(ui_frame_normal,  textvariable = z, font=("Helvetica", 14))
-zText.grid(row=2, column=4, padx=8, pady= 5, sticky = "w",columnspan=2)
+zText.grid(row=3, column=4, padx=8, pady= 5, sticky = "w",columnspan=2)
 
 # * Main loop
 if __name__ == "__main__":
