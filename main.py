@@ -19,6 +19,7 @@ simulation_screen.pack()
 mean = StringVar()
 sd = StringVar()
 areaUpdate = StringVar()
+z = StringVar()
 
 uniform_tab = Frame(simulation_screen, width = 1280, height = 720)
 normal_tab = Frame(simulation_screen, width = 1280, height = 720)
@@ -214,9 +215,27 @@ stdNum.grid(row=2, column=7, padx=5, sticky="w")
 # * --------------------------------------------------------------- * #
 
 def updateNormal():
-    meanNormal = int(meanText.get())
-    stdNormal = int(stdText.get())
-    trialNormal = int(trialText.get())
+
+    if meanText.get() == "" or stdText.get() == "" or trialText.get() == "" or binsText.get() == "":
+        messagebox.showerror("Empty field", "Please fill in all fields.")
+        return
+
+    try:
+        meanNormal = float(meanText.get())
+        stdNormal = float(stdText.get())
+        trialNormal = int(trialText.get())
+        bins = int(binsText.get())
+    except:
+        messagebox.showerror("Value Error", "Must be number.")
+        return
+
+    if stdNormal > 1:
+        messagebox.showerror("Value Error", "STD must be less than or equal to 1.")
+        return
+
+    if stdNormal < 0 or trialNormal < 0 or bins < 0:
+        messagebox.showerror("Value Error", "Number must be positive.")
+        return
 
     # Clear the subplot
     global b
@@ -225,7 +244,9 @@ def updateNormal():
     # Plot new data into subplot
     resultNormal = graph.normaling(meanNormal, stdNormal, trialNormal)
 
-    b.hist(resultNormal[1], density = 1)
+    z.set(resultNormal[-1])
+
+    b.hist(resultNormal[1], density = 1, bins = bins)
     b.plot(np.sort(resultNormal[1]), resultNormal[2])
 
     b.set_xlabel("x")
@@ -253,7 +274,7 @@ rvsNormal = 500
 
 resultNormal = graph.normaling(meanNormal, stdNormal, rvsNormal)
 
-b.hist(resultNormal[1], density = 1)
+b.hist(resultNormal[1], density = 1, bins = 100)
 b.plot(np.sort(resultNormal[1]), resultNormal[2])
 
 b.set_xlabel("x")
@@ -297,6 +318,18 @@ trialText.grid(row=3, column=1, padx=8, pady= 5, sticky = "w",columnspan=2)
 
 normalButton = Button(ui_frame_normal, text = "Update", bd = 4, width = 10, relief = GROOVE, command = lambda: updateNormal())
 normalButton.grid(row=4, column=0, pady=20, padx=20, sticky = "w")
+
+binsLabel = Label(ui_frame_normal, text = "Bins: ", font=("Helvetica", 14))
+binsLabel.grid(row=1, column=3, padx=20, pady= 5, sticky="w")
+
+binsText = Entry(ui_frame_normal, font=("Helvetica", 14))
+binsText.grid(row=1, column=4, padx=8, pady= 5, sticky = "w",columnspan=2)
+
+zLabel = Label(ui_frame_normal, text = "Zscore: ", font=("Helvetica", 14))
+zLabel.grid(row=2, column=3, padx=20, pady= 5, sticky="w")
+
+zText = Label(ui_frame_normal,  textvariable = z, font=("Helvetica", 14))
+zText.grid(row=2, column=4, padx=8, pady= 5, sticky = "w",columnspan=2)
 
 # * Main loop
 if __name__ == "__main__":
