@@ -8,9 +8,9 @@ def uniforming(a, b):
     lin = np.linspace(0, (a + b), 100)
     return [a, b - a, height, mean, f"{sd:.4f}", lin]
 
-def normaling(mean, std):
+def normaling(mean, std, rvs):
     x = stats.norm(loc = mean, scale = std)
-    xRvs = x.rvs(500)
+    xRvs = x.rvs(rvs)
     pdf = x.pdf(np.sort(xRvs))
 
     z = stats.zscore(xRvs)

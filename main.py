@@ -213,6 +213,38 @@ stdNum.grid(row=2, column=7, padx=5, sticky="w")
 
 # * --------------------------------------------------------------- * #
 
+def updateNormal():
+
+    mean = meanText.get()
+    STD = stdText.get()
+    trial = trialText.get()
+
+    print(mean,STD, trial)
+
+    figureNormal = plt.Figure(figsize = (5,4), dpi = 100)
+    b = figureNormal.add_subplot(1, 1, 1)
+    meanNormal = mean
+    stdNormal = STD
+
+    resultNormal = graph.normaling(meanNormal, stdNormal, trial)
+
+    b.hist(resultNormal[1], density = 1)
+    b.plot(np.sort(resultNormal[1]), resultNormal[2])
+
+    b.set_xlabel("x")
+    b.set_ylabel("y")
+    b.set_title("Normal distribution")
+
+    # For padding
+    figureNormal.tight_layout()
+
+    canvasNormal = FigureCanvasTkAgg(figureNormal, frameNormal)
+    canvasNormal.draw()
+    canvasNormal.get_tk_widget().pack(side = BOTTOM, fill = BOTH, expand = True)
+    # toolbarNormal = NavigationToolbar2Tk(canvasNormal, normal_tab)
+    # toolbarNormal.update()
+    canvasNormal._tkcanvas.pack(side = TOP, fill = BOTH, expand = True)
+
 # * Normal Distribution initialization
 titleNormal = Label(normal_tab, text ='Normal Distribution', font = ("sans-serif", 15, "bold"))
 titleNormal.place(x = 550, y = 5)
@@ -224,8 +256,9 @@ figureNormal = plt.Figure(figsize = (5,4), dpi = 100)
 b = figureNormal.add_subplot(1, 1, 1)
 meanNormal = 0
 stdNormal = 1
+rvsNormal = 500
 
-resultNormal = graph.normaling(meanNormal, stdNormal)
+resultNormal = graph.normaling(meanNormal, stdNormal, rvsNormal)
 
 b.hist(resultNormal[1], density = 1)
 b.plot(np.sort(resultNormal[1]), resultNormal[2])
@@ -248,8 +281,31 @@ uiFrameNormal = Frame(normal_tab, width = 1280, height = 220, highlightbackgroun
 uiFrameNormal.place(x = 0, y = 500, width = 1280, height = 220)
 
 # * --------------------------------------------------------------- * #
+ui_frame_normal = Frame(normal_tab, width = 1280, height = 220, highlightbackground = "black", highlightcolor = "black", highlightthickness = 1)
+ui_frame_normal.place(x = 0, y = 500, width = 1280, height = 220)
 
-# * Normal Distribution tab handling
+meanLabel = Label(ui_frame_normal, text = "Mean: ", font=("Helvetica", 14))
+meanLabel.grid(row=1, column=0, padx=20, pady= 5, sticky="w")
+
+meanText = Entry(ui_frame_normal, font=("Helvetica", 14))
+meanText.grid(row=1, column=1, padx=8, pady= 5, sticky = "w",columnspan=2)
+
+stdLabel = Label(ui_frame_normal, text = "STD: ", font=("Helvetica", 14))
+stdLabel.grid(row=2, column=0, padx=20, pady= 5, sticky="w")
+
+stdText = Entry(ui_frame_normal, font=("Helvetica", 14))
+stdText.grid(row=2, column=1, padx=8, pady= 5, sticky = "w",columnspan=2)
+
+trialLabel = Label(ui_frame_normal, text = "Trials: ", font=("Helvetica", 14))
+trialLabel.grid(row=3, column=0, padx=20, pady= 5, sticky="w")
+
+trialText = Entry(ui_frame_normal, font=("Helvetica", 14))
+trialText.grid(row=3, column=1, padx=8, pady= 5, sticky = "w",columnspan=2)
+
+normalButton = Button(ui_frame_normal, text = "Update", bd = 4, width = 10, relief = GROOVE, command = lambda: updateNormal())
+normalButton.grid(row=4, column=0, pady=20, padx=20, sticky = "w")
+
+
 
 # * Main loop
 if __name__ == "__main__":
