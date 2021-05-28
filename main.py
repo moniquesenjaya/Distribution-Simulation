@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import ttk
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import uniform
@@ -65,8 +65,6 @@ a.fill_between(results[-1], y, alpha = 0.25)
 canvas = FigureCanvasTkAgg(figureUniform, graph_frame)
 canvas.draw()
 canvas.get_tk_widget().pack(side = BOTTOM, fill = BOTH, expand = True)
-# toolbar = NavigationToolbar2Tk(canvas, uniform_tab)
-# toolbar.update()
 canvas._tkcanvas.pack(side = TOP, fill = BOTH, expand = True)
 
 # * --------------------------------------------------------------- * #
@@ -214,55 +212,6 @@ stdNum.grid(row=2, column=7, padx=5, sticky="w")
 
 # * --------------------------------------------------------------- * #
 
-def updateNormal():
-
-    if meanText.get() == "" or stdText.get() == "" or trialText.get() == "" or binsText.get() == "" or xValuesText == "":
-        messagebox.showerror("Empty field", "Please fill in all fields.")
-        return
-
-    try:
-        meanNormal = float(meanText.get())
-        stdNormal = float(stdText.get())
-        trialNormal = int(trialText.get())
-        bins = int(binsText.get())
-        xval = float(xValuesText.get())
-    except:
-        messagebox.showerror("Value Error", "Must be number.")
-        return
-
-    if stdNormal > 1:
-        messagebox.showerror("Value Error", "STD must be less than or equal to 1.")
-        return
-
-    if stdNormal < 0 or trialNormal < 0 or bins < 0:
-        messagebox.showerror("Value Error", "Number must be positive.")
-        return
-
-    #blm kepikiran :') validation part for xval
-
-    
-    # Clear the subplot
-    global b
-    b.clear()
-
-    # Plot new data into subplot
-    resultNormal = graph.normaling(meanNormal, stdNormal, trialNormal, xval)
-
-    z.set(resultNormal[-1])
-
-    b.hist(resultNormal[1], density = 1, bins = bins)
-    b.plot(np.sort(resultNormal[1]), resultNormal[2])
-
-    b.set_xlabel("x")
-    b.set_ylabel("y")
-    b.set_title("Normal distribution")
-
-    # For padding
-    figureNormal.tight_layout()
-
-    # Refresh canvas
-    canvasNormal.draw()
-
 # * Normal Distribution initialization
 titleNormal = Label(normal_tab, text ='Normal Distribution', font = ("sans-serif", 15, "bold"))
 titleNormal.place(x = 550, y = 5)
@@ -291,12 +240,56 @@ figureNormal.tight_layout()
 canvasNormal = FigureCanvasTkAgg(figureNormal, frameNormal)
 canvasNormal.draw()
 canvasNormal.get_tk_widget().pack(side = BOTTOM, fill = BOTH, expand = True)
-# toolbarNormal = NavigationToolbar2Tk(canvasNormal, normal_tab)
-# toolbarNormal.update()
 canvasNormal._tkcanvas.pack(side = TOP, fill = BOTH, expand = True)
 
 uiFrameNormal = Frame(normal_tab, width = 1280, height = 220, highlightbackground = "black", highlightcolor = "black", highlightthickness = 1)
 uiFrameNormal.place(x = 0, y = 500, width = 1280, height = 220)
+
+# * Normal Distribution tab handling
+def updateNormal():
+    if meanText.get() == "" or stdText.get() == "" or trialText.get() == "" or binsText.get() == "" or xValuesText == "":
+        messagebox.showerror("Empty field", "Please fill in all fields.")
+        return
+
+    try:
+        meanNormal = float(meanText.get())
+        stdNormal = float(stdText.get())
+        trialNormal = int(trialText.get())
+        bins = int(binsText.get())
+        xval = float(xValuesText.get())
+    except:
+        messagebox.showerror("Value Error", "Must be number.")
+        return
+
+    if stdNormal > 1:
+        messagebox.showerror("Value Error", "STD must be less than or equal to 1.")
+        return
+
+    if stdNormal < 0 or trialNormal < 0 or bins < 0:
+        messagebox.showerror("Value Error", "Number must be positive.")
+        return
+
+    # Clear the subplot
+    global b
+    b.clear()
+
+    # Plot new data into subplot
+    resultNormal = graph.normaling(meanNormal, stdNormal, trialNormal, xval)
+
+    z.set(resultNormal[-1])
+
+    b.hist(resultNormal[1], density = 1, bins = bins)
+    b.plot(np.sort(resultNormal[1]), resultNormal[2])
+
+    b.set_xlabel("x")
+    b.set_ylabel("y")
+    b.set_title("Normal distribution")
+
+    # For padding
+    figureNormal.tight_layout()
+
+    # Refresh canvas
+    canvasNormal.draw()
 
 # * --------------------------------------------------------------- * #
 ui_frame_normal = Frame(normal_tab, width = 1280, height = 220, highlightbackground = "black", highlightcolor = "black", highlightthickness = 1)
