@@ -9,7 +9,7 @@ from tkinter import messagebox
 
 # * Window initialization
 root = Tk()
-root.title("Distribution Simulation")
+root.title("COMPUTATIONAL MATHEMATICS FINAL PROJECT")
 root.geometry("1280x720")
 root.resizable(0, 0)    # Make root window fixed size
 
@@ -210,6 +210,8 @@ stdLabel.grid(row=2, column=6, padx=20, sticky="w")
 stdNum = Label(ui_frame, textvariable = sd, font=("Helvetica", 14))
 stdNum.grid(row=2, column=7, padx=5, sticky="w")
 
+infoLabel = Label(ui_frame, text = "Made by: Christopher T, Jason J, Monique S (L2BC)", font=("Helvetica", 13))
+infoLabel.grid(row=4, column=0, padx=20, columnspan=2)
 # * --------------------------------------------------------------- * #
 
 # * Normal Distribution initialization
@@ -301,17 +303,23 @@ meanLabel.grid(row=1, column=0, padx=20, pady= 5, sticky="w")
 meanText = Entry(ui_frame_normal, font=("Helvetica", 14))
 meanText.grid(row=1, column=1, padx=8, pady= 5, sticky = "w",columnspan=2)
 
+meanText.insert(0,"0")
+
 stdLabel = Label(ui_frame_normal, text = "STD: ", font=("Helvetica", 14))
 stdLabel.grid(row=2, column=0, padx=20, pady= 5, sticky="w")
 
 stdText = Entry(ui_frame_normal, font=("Helvetica", 14))
 stdText.grid(row=2, column=1, padx=8, pady= 5, sticky = "w",columnspan=2)
 
+stdText.insert(0,"1")
+
 trialLabel = Label(ui_frame_normal, text = "Trials: ", font=("Helvetica", 14))
 trialLabel.grid(row=3, column=0, padx=20, pady= 5, sticky="w")
 
 trialText = Entry(ui_frame_normal, font=("Helvetica", 14))
 trialText.grid(row=3, column=1, padx=8, pady= 5, sticky = "w",columnspan=2)
+
+trialText.insert(0,"100")
 
 normalButton = Button(ui_frame_normal, text = "Update", bd = 4, width = 10, relief = GROOVE, command = lambda: updateNormal())
 normalButton.grid(row=4, column=0, pady=20, padx=20, sticky = "w")
@@ -321,6 +329,8 @@ binsLabel.grid(row=1, column=3, padx=20, pady= 5, sticky="w")
 
 binsText = Entry(ui_frame_normal, font=("Helvetica", 14))
 binsText.grid(row=1, column=4, padx=8, pady= 5, sticky = "w",columnspan=2)
+
+binsText.insert(0,"100")
 
 xValueLabel = Label(ui_frame_normal, text = "X value (z score): ", font=("Helvetica", 14))
 xValueLabel.grid(row=2, column=3, padx=20, pady= 5, sticky="w")

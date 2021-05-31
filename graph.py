@@ -12,6 +12,5 @@ def normaling(mean, std, rvs, xval=0):
     x = stats.norm(loc = mean, scale = std)
     xRvs = x.rvs(rvs)
     pdf = x.pdf(np.sort(xRvs))
-
     z = (xval-mean)/std
     return [x, xRvs, pdf, z]
